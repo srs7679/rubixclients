@@ -1,0 +1,354 @@
+
+<section class="users-edit">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+
+
+
+                <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs justify-content-left">
+                    <li [ngbNavItem]="1">
+                      <a ngbNavLink class="nav-link d-flex align-items-center">
+                        <i class="ft-user mr-1"></i>
+                        <span class="d-none d-sm-block">Farmers Details</span>
+                      </a>
+                      <ng-template ngbNavContent>
+                        <!-- Account content starts -->
+                        <div class="mt-2" id="account">
+
+
+
+        <!--             <mat-toolbar style="color:rgb(29, 25, 25);background-color: #84C225;"> FarmersData -->
+            <!-- <span class="toolbar-spacer">
+<mat-icon (click)="onNoClick()">cancel</mat-icon></span>-->
+        <!-- </mat-toolbar> -->
+               
+        <form [formGroup]="userForm" (ngSubmit)="userForm.valid&&onSubmit()">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="controls">
+            <div class="media">
+                <img src="assets/img/portrait/small/avatar-s-2.png" alt="user edit avatar"
+                    class="users-avatar-shadow avatar mr-3 rounded-circle" height="64" width="64">
+                <div class="media-body">
+                    <h4>Avatar</h4>
+                    <div class="d-flex flex-sm-row flex-column justify-content-start px-0 mb-sm-2">
+                        <button  type="button" class="btn btn-sm btn-primary mb-1 mb-sm-0">Change</button>
+                        <!-- <button class="btn btn-sm bg-light-secondary ml-sm-2">Reset</button> -->
+                    </div>
+                </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            <div class="col-12 col-md-6">
+            <div class="form-group">
+                <div class="controls">
+                    <label for="users-edit-role">Assigned Zones</label>
+            <ng-select  [items]="zones" bindLabel="name"  bindValue="name"
+            placeholder="zones" formControlName="assignedzone"  [(ngModel)]="defaultZone">
+        </ng-select>
+        <!-- <mat-error *ngIf="checkError('assignedzone', 'required')"> assignedzone is required </mat-error> -->
+        <div *ngIf="userForm.controls['assignedzone'].hasError('required')&& userForm.controls['assignedzone'].touched" class="form-text text-muted success">
+            assignedzone is required
+          </div>   
+    </div>
+        </div>
+        </div>
+            </div>
+            <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="controls">
+                <mat-form-field  >
+                                            <mat-label>Name</mat-label>
+                                            <input type="text" matInput placeholder="Name" formControlName="fullName">
+
+                    <mat-error *ngIf="checkError('fullName', 'required')"> Name is required </mat-error>
+                    <mat-error *ngIf="checkError('fullName', 'pattern')"> Enter a valid name </mat-error>
+                                     
+                </mat-form-field>
+                </div>
+                </div>
+                <div class="form-group">
+                    <div class="controls">
+                <mat-form-field  >
+                                            <mat-label>Address</mat-label>
+                                            <input type="text" matInput placeholder="address" formControlName="address">
+
+                    <mat-error *ngIf="checkError('address', 'required')"> Address is required </mat-error>
+                    <mat-error *ngIf="checkError('address', 'minlength')"> Enter a valid address </mat-error>
+                                     
+                </mat-form-field>
+                </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="controls">
+            <mat-form-field >
+                                        <mat-label>PickUp Address</mat-label>
+                                        <input type="text" matInput placeholder="pickupAddress"
+                    formControlName="pickupAddress">
+
+                <mat-error *ngIf="checkError('pickupAddress', 'required')"> pickupAddress is required </mat-error>
+                <mat-error *ngIf="checkError('pickupAddress', 'pattern')"> Enter a valid pickupAddress</mat-error>
+                                 
+            </mat-form-field>
+            </div>
+            </div>
+            <div class="form-group">
+                <div class="controls">
+            <mat-form-field >
+                                        <mat-label>Place</mat-label>
+                                        <input type="text" matInput placeholder="place" formControlName="place">
+
+                <mat-error *ngIf="checkError('place', 'required')"> place is required </mat-error>
+                <mat-error *ngIf="checkError('place', 'pattern')"> Enter a valid place name </mat-error>                
+                 
+            </mat-form-field>
+
+</div>
+</div>
+</div>
+            </div>
+            <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="controls">
+            <div  formArrayName="phones" >
+                
+                <div *ngFor="let group of phonesArray.controls; let i = index;" [formGroupName]="i">
+                    
+                    <mat-form-field  style="width: 155px;">
+                                        <mat-label>Phone</mat-label>
+                                        <input type="text" matInput placeholder="Mobile No"
+                    formControlName="mobileno">
+                      <mat-error *ngIf="group.controls.mobileno.hasError('required') ">Phone No  is required </mat-error>
+                    <mat-error *ngIf="group.controls.mobileno.hasError('pattern') ">Enter the valid Phone No </mat-error>     
+            </mat-form-field>
+            <div *ngIf="i!=0" style="display: inline;" >
+                <mat-icon matSuffix alt="" width="24" height="24" (click)="removephonetype(i)">delete</mat-icon>
+              </div>
+        </div>
+        <mat-icon alt="" (click)="addphonetype()">add</mat-icon> Add Additional PhoneNo
+    </div>
+
+    </div>
+    </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+            <div class="form-group">
+                <div class="controls">
+            <mat-form-field >
+                                        <mat-label>Email</mat-label>
+                                        <input type="text" matInput placeholder="Email"
+                >
+        
+                <!-- <mat-error *ngIf="checkError('contactperson', 'required')"> contactperson is required </mat-error>
+                <mat-error *ngIf="checkError('contactperson', 'pattern')"> Enter a valid contactperson </mat-error>    
+                      -->
+                       
+            </mat-form-field>
+
+</div>
+</div></div>
+</div>
+
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            <div class="controls">
+    <mat-form-field >
+                                <mat-label>Contact person</mat-label>
+                                <input type="text" matInput placeholder="contact person"
+            formControlName="contactperson">
+
+        <mat-error *ngIf="checkError('contactperson', 'required')"> contactperson is required </mat-error>
+        <mat-error *ngIf="checkError('contactperson', 'pattern')"> Enter a valid contactperson </mat-error>    
+             
+               
+    </mat-form-field>
+    </div>
+    </div>
+    <div class="form-group">
+        <div class="controls">
+    <mat-form-field >
+                                <mat-label>land Areasqft</mat-label>
+                                <input type="text" matInput placeholder="landareasqft"
+            formControlName="landareasqft">
+
+        <mat-error *ngIf="checkError('landareasqft', 'required')"> landareasqft is required </mat-error>
+        <mat-error *ngIf="checkError('landareasqft', 'pattern')"> Enter a valid landareasqft </mat-error> 
+                         
+    </mat-form-field>
+</div>
+</div>
+            <!--                        <mat-checkbox class="example-full-width" style="color: #333333;" labelPosition="before" formControlName="isActive">Active </mat-checkbox> -->
+
+            <!-- <mat-form-field appearance="fill">
+                        <mat-label>Favorite food</mat-label>
+                        <mat-select multiple formControlName="selectedValu" name="food">
+                          <mat-option *ngFor="let food of foods" [value]="food.value">
+                            {{food.viewValue}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field> -->
+
+            
+                      <div class="form-group">
+                        <div class="controls">
+                            <label for="users-edit-role">Preferred Languages</label>
+            <ng-select  [items]="languages" bindLabel="name" bindValue="name" [multiple]="true"
+                [closeOnSelect]="false" placeholder="Select languages" formControlName="preferredlanguage" [(ngModel)]="defaultLang">
+            </ng-select>
+            <!-- <mat-error *ngIf="checkError('preferredlanguage', 'required')"> languages is required </mat-error> -->
+            <div *ngIf="userForm.controls['preferredlanguage'].hasError('required')&& userForm.controls['assignedzone'].touched" class="form-text text-muted success">
+            language is required
+            </div>
+        </div>
+</div>
+    </div>
+
+            <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-3 mt-sm-2">
+                <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2">Save</button>
+                <div *ngIf="isData">
+                    <button type="reset" class="btn btn-secondary" (click)="deleteFarmers()">Delete</button>
+                </div >
+                <div *ngIf="!isData">
+                <button type="reset" class="btn btn-secondary">Cancel</button>
+            </div >
+              </div>
+
+            
+        </form>
+  
+        
+    </div>
+    <!-- Account content ends -->
+  </ng-template>
+</li>
+<li [ngbNavItem]="2">
+  <a ngbNavLink class="nav-link d-flex align-items-center">
+    <i class="ft-info mr-1"></i>
+    <span class="d-none d-sm-block">Product Information</span>
+  </a>
+  <ng-template ngbNavContent>
+    <!-- Information content starts -->
+    <div class="mt-2" id="information">
+      <!-- Information form starts -->
+
+
+      <app-tables [tableData]="farmersproduct"
+  [tableColumns]="productsTableColumns" 
+  (add)=addProduct($event)
+    (update)=updateProduct($event)        
+              [isFilterable]="true"
+              [isPageable]="true"
+              [paginationSizes]="[2,4,6]"
+              [defaultPageSize]="4"
+              (sort)="sortData($event)"
+              [rowActionIcon]="'remove_shopping_cart'"
+              (rowAction)="removefarmerrs($event)"
+  ></app-tables>
+  <div  *ngIf="prodAdd">
+    <div class="mt-2" id="account">
+    <form [formGroup]="productForm" (ngSubmit)="productForm.valid&&onProductSubmit()">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                <div class="controls">
+            <mat-form-field  >
+                                        <mat-label>Product Name</mat-label>
+                                        <input type="text" matInput placeholder="productName" formControlName="productName">
+
+                <mat-error *ngIf="checkProductError('productName', 'required')"> Product name is required </mat-error>
+                <mat-error *ngIf="checkProductError('productName', 'pattern')"> Enter a valid name </mat-error>
+                                 
+            </mat-form-field>
+            </div>
+            </div>
+            <div class="form-group">
+                <div class="controls">
+            <mat-form-field  >
+                                        <mat-label>List Price</mat-label>
+                                        <input type="text" matInput placeholder="listprice" formControlName="listprice">
+
+                <mat-error *ngIf="checkProductError('listprice', 'required')"> Listprice is required </mat-error>
+                <mat-error *ngIf="checkProductError('listprice', 'pattern')"> Enter a valid listprice </mat-error>
+                                 
+            </mat-form-field>
+            </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                <div class="controls">
+        <mat-form-field >
+                                    <mat-label>Selling Price</mat-label>
+                                    <input type="text" matInput placeholder="sellingprice"
+                formControlName="sellingprice">
+
+            <mat-error *ngIf="checkProductError('sellingprice', 'required')"> Selling Price is required </mat-error>
+            <mat-error *ngIf="checkProductError('sellingprice', 'pattern')"> Enter a valid Selling Price</mat-error>
+                             
+        </mat-form-field>
+        </div>
+        </div>
+        <div class="form-group">
+            <div class="controls">
+        <mat-form-field >
+                                    <mat-label>Max Selling Capacity</mat-label>
+                                    <input type="text" matInput placeholder="maxsellingcapacity" formControlName="maxsellingcapacity">
+
+            <mat-error *ngIf="checkProductError('maxsellingcapacity', 'required')"> maxsellingcapacity is required </mat-error>
+            <mat-error *ngIf="checkProductError('maxsellingcapacity', 'pattern')"> Enter a valid maxsellingcapacity </mat-error>                
+             
+        </mat-form-field>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-3 mt-sm-2">
+    <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2">Save</button>
+    <div *ngIf="proddId!=null">
+        <button type="reset" class="btn btn-secondary " (click)="deleteProduct()">Delete</button>
+    </div >
+    <div *ngIf="proddId==null">
+    <button type="reset" class="btn btn-secondary">Cancel</button>
+</div >
+  </div>
+
+
+</form>
+</div>
+
+</div>
+
+ <!-- Information form ends -->
+</div>
+<!-- Information content ends -->
+</ng-template>
+</li>
+</ul>
+<div class="tab-content">
+<div [ngbNavOutlet]="nav"></div>
+</div>
+
+
+
+
+
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
